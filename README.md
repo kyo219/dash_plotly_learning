@@ -2,8 +2,7 @@
 
 1. plotly + Dashで動的なダッシュボードを1から作成することができた.
 2. いろんなパターンのグラフを作成.<br>
-    2.1 とりあえず、2つ縦に並べられることはわかった. <br>
-    2.2 推定結果をプロットもできる. -> pokemon_type_groupby_and_regression.py<br>
+    2.1 推定結果のプロットもできる. -> pokemon_type_groupby_and_regression.py<br>
     
 
 4. コンパイル（？）が成功する時としない時があるので検証. <br>
