@@ -1,0 +1,83 @@
+from distutils.log import debug
+import pandas as pd
+import plotly.express as px  # (version 4.7.0 or higher)
+import plotly.graph_objects as go
+from dash import Dash, dcc, html, dash_table, dcc  # pip install dash (version 2.0.0 or higher)
+import plotly.express as px
+from dash.dependencies import Input, Output
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+app = Dash(__name__)
+
+# -- Import and clean data (importing csv into pandas)
+df = pd.read_csv("data/pokemon.csv")
+
+# ------------------------------------------------------------------------------
+# App layout
+app.layout = html.Div([
+
+    html.H1("Pokemon Stats Dashboard created by Dash + plotly", style={'text-align': 'center'}),
+
+    dcc.Dropdown(id="select_grpby",
+                 options=[
+                     {"label": "Type 1", "value": "Type 1"},
+                     {"label": "Type 2", "value": "Type 2"},
+                     {"label": "Generation", "value": "Generation"},
+                     {"label": "Legendary", "value": "Legendary"}],
+                 multi=False,
+                 value="Type 1",
+                 style={'width': "40%"}
+                 ),
+    dcc.Dropdown(id="select_y",
+                 options=[
+                     {"label": "Total", "value": "Total"},
+                     {"label": "HP", "value": "HP"},
+                     {"label": "Attack", "value": "Attack"},
+                     {"label": "Defence", "value": "Defence"},
+                     {"label": "Sp. Atk", "value": "Sp. Atk"},
+                     {"label": "Sp. Def", "value": "Sp. Def"},
+                     {"label": "Speed", "value": "Speed"}],
+                 multi=False,
+                 value="Total",
+                 style={'width': "40%"}
+                 ),
+    html.Div(id='output_container', children=[]),
+    html.Br(),
+    dcc.Graph(id='output_graph', figure={}),
+    dcc.Graph(id='regression_graph', figure={})
+    # dash_table.DataTable(id= 'table'),
+    ])
+
+@app.callback(
+    [Output(component_id='output_container', component_property='children'),
+    Output(component_id='output_graph', component_property='figure'),
+    Output(component_id='regression_graph', component_property='figure')],
+    [Input(component_id="select_grpby", component_property='value'),
+     Input(component_id="select_y", component_property='value')]
+)
+def update_figure(slct_grp, slct_y):
+    container =  str(slct_grp) +" and " + str(slct_y) + " were selected respectively."
+    df_type1_groupby = df.groupby([slct_grp])[['Total', 'HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed']].mean()
+    df_type1_groupby.reset_index(inplace=True)
+    fig = go.Figure()
+    fig = px.bar(df_type1_groupby,
+                 x= slct_grp,
+                 y = slct_y)
+    
+    df_ed = pd.get_dummies(df[['Type 1', 'Type 2', 'Generation', 'Total']])
+    X_train, X_test, y_train, y_test = train_test_split(df_ed.drop('Total', axis = 1), df_ed['Total'], test_size=0.3, random_state=42)
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+    pred = model.predict(X_test)
+    fig_reg = go.Figure()
+    fig_reg = px.scatter(x=pred,
+                         y=y_test)
+    return container, fig, fig_reg
+
+# ------------------------------------------------------------------------------
+if __name__ == '__main__':
+    server = app.server  #variable name serve is just an example. name it whatever...
+    app.run_server(host='127.0.0.1',port=8700)
+
+df
