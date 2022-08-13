@@ -42,25 +42,63 @@ app.layout = html.Div([
                  ),
     html.Div(id='output_container', children=[]),
     html.Br(),
-    dcc.Graph(id='output_graph', figure={})
+    dcc.Graph(id='output_graph', figure={}),
+    dcc.Dropdown(id="select_grpby2",
+                 options=[
+                     {"label": "Type 1", "value": "Type 1"},
+                     {"label": "Type 2", "value": "Type 2"},
+                     {"label": "Generation", "value": "Generation"},
+                     {"label": "Legendary", "value": "Legendary"}],
+                 multi=False,
+                 value="Type 1",
+                 style={'width': "40%"}
+                 ),
+    dcc.Dropdown(id="select_y2",
+                 options=[
+                     {"label": "Total", "value": "Total"},
+                     {"label": "HP", "value": "HP"},
+                     {"label": "Attack", "value": "Attack"},
+                     {"label": "Defence", "value": "Defence"},
+                     {"label": "Sp. Atk", "value": "Sp. Atk"},
+                     {"label": "Sp. Def", "value": "Sp. Def"},
+                     {"label": "Speed", "value": "Speed"}],
+                 multi=False,
+                 value="Total",
+                 style={'width': "40%"}
+                 ),
+    html.Div(id='output_container2', children=[]),
+    html.Br(),
+    dcc.Graph(id='output_graph2', figure={})
     # dash_table.DataTable(id= 'table'),
     ])
 
 @app.callback(
     [Output(component_id='output_container', component_property='children'),
-    Output(component_id='output_graph', component_property='figure')],
+    Output(component_id='output_graph', component_property='figure'),
+    Output(component_id='output_container2', component_property='children'),
+    Output(component_id='output_graph2', component_property='figure')],
     [Input(component_id="select_grpby", component_property='value'),
-     Input(component_id="select_y", component_property='value')]
+     Input(component_id="select_y", component_property='value'),
+     Input(component_id="select_grpby2", component_property='value'),
+     Input(component_id="select_y2", component_property='value')]
 )
-def update_figure(slct_grp, slct_y):
-    container =  str(slct_grp) +" and " + str(slct_y) + " were selected respectively."
-    df_type1_groupby = df.groupby([slct_grp])[['Total', 'HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed']].mean()
-    df_type1_groupby.reset_index(inplace=True)
+def update_figure(slct_grp, slct_y, slct_grp2, slct_y2):
+    container =  'graph 1 : ' + str(slct_grp) +" and " + str(slct_y) + " were selected respectively."
+    df_groupby = df.groupby([slct_grp])[['Total', 'HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed']].mean()
+    df_groupby.reset_index(inplace=True)
     fig = go.Figure()
-    fig = px.bar(df_type1_groupby,
+    fig = px.bar(df_groupby,
                  x= slct_grp,
                  y = slct_y)
-    return container, fig
+
+    container2 =  'graph 2 : ' + str(slct_grp2) +" and " + str(slct_y2) + " were selected respectively."
+    df_groupby2 = df.groupby([slct_grp2])[['Total', 'HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed']].mean()
+    df_groupby2.reset_index(inplace=True)
+    fig2 = go.Figure()
+    fig2 = px.bar(df_groupby2,
+                 x= slct_grp2,
+                 y= slct_y2)
+    return container, fig, container2, fig2
 
 # ------------------------------------------------------------------------------
 if __name__ == '__main__':

@@ -4,10 +4,8 @@
 2. コンパイル（？）が成功する時としない時があるので検証. <br>
     scripts/pokemon_type_groupby.py は動いてくれるが、pokemon_type_groupby_ugokanai.pyは動かない.<br>
 3. いろんなパターンのグラフを作成.<br>
-    とりあえず、2つ縦に並べられることはわかった. -> pokemon_type_groupby_and_regression.py<br>
-4. 業務のコード理解. <br>
-    書き直す方が良いかも？
-
+    とりあえず、2つ縦に並べられることはわかった.<br>
+    あと、drop downをそれぞれ変えて比較できる. 
 
 ## 参考リンク
 
