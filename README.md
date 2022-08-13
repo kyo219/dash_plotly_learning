@@ -1,12 +1,14 @@
 ## 進捗
 
-1. plotly + Dashで動的なダッシュボードを1から作成することができた.
-2. コンパイル（？）が成功する時としない時があるので検証. <br>
-    scripts/pokemon_type_groupby.py は動いてくれるが、pokemon_type_groupby_ugokanai.pyは動かない.<br>
-3. いろんなパターンのグラフを作成.<br>
+1. plotly + Dashで動的なダッシュボードを1から作成することができた.<br>
+2. いろんなパターンのグラフを作成.<br>
     とりあえず、2つ縦に並べられることはわかった.<br>
     あと、drop downをそれぞれ変えて比較できる. 
-
+3. コンパイル（？）の失敗条件で詰まった. 後で検証 <br>
+    4.1 原因はわかった. 理由が微妙. <br>
+    scripts/pokemon_type_groupby.py は動いてくれるが、pokemon_type_groupby_ugokanai.pyは動かない.<br>
+    → コードの差分部
+    
 ## 参考リンク
 
 ## component　レシピ. 
