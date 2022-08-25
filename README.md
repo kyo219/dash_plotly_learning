@@ -8,6 +8,8 @@
     4.1 原因はわかった. 理由が微妙. <br>
     scripts/pokemon_type_groupby.py は動いてくれるが、pokemon_type_groupby_ugokanai.pyは動かない.<br>
     → コードの差分部
+
+TODO: input 色々試す. 
     
 ## 参考リンク
 
@@ -24,3 +26,5 @@ https://data-analytics.fun/2021/06/08/plotly-data-visualization-1/
 
 # 後でみる.?
 https://qiita.com/nerimplo/items/3e7ab09a3dd2bb16a41d
+
+

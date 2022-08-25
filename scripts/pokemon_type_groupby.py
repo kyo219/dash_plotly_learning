@@ -71,7 +71,7 @@ app.layout = html.Div([
     dcc.Graph(id='output_graph2', figure={})
     # dash_table.DataTable(id= 'table'),
     ])
-
+    
 @app.callback(
     [Output(component_id='output_container', component_property='children'),
     Output(component_id='output_graph', component_property='figure'),
